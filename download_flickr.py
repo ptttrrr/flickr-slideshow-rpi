@@ -57,12 +57,12 @@ def send_mail_to_let_someone_know_im_ok():
         pst = pytz.timezone('Europe/Stockholm')
         now = datetime.datetime.now(pst)
         hour = now.hour
-        print('Time is: ', now, now.hour)
+        print('Time is: ', now)
     except Exception as e:
         print(e)
         
     if(hour == 8 or hour == 18): 
-        print('Chiming in')
+        print('Chimin' in')
         try:
             mail_text = 'I still got the blues.'
             server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -72,7 +72,7 @@ def send_mail_to_let_someone_know_im_ok():
         except Exception as e:
             print('Something went down the drain: ', e)
     else:
-        print('Now is not the time be sending emails')
+        print('Now is not the time to be sending emails')
     
     
 # To delete stray images locally    
