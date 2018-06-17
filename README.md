@@ -19,9 +19,9 @@ sudo apt-get -y install fbi
  - Use Crontab to run the Flickr download script in an interval to your liking
 
  - Open Crontab
-crontab -e
-```
 
+```
+crontab -e
 ```
  - Add cronjob
 ```
