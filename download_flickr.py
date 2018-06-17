@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 from flickrapi import FlickrAPI
 import urllib.request
-import os, shutil, re
+import os
+import datetime
+import pytz
+import smtplib
 import signal
 import config
 from random import randint
@@ -16,14 +19,63 @@ user_id = config.SLIDE_CONFIG['user_id']
 max_images = config.SLIDE_CONFIG['max_images']
 folder = "slideshow/flickr"
 
+# Mail settings
+gmail_user = config.SLIDE_CONFIG['gmail_user']
+gmail_password = config.SLIDE_CONFIG['gmail_password']
+mail_to = config.SLIDE_CONFIG['mail_to']
+mail_from = config.SLIDE_CONFIG['mail_from']
+
 # FlickrAPI instance
 flickr = FlickrAPI(flickr_key, flickr_secret)
 size_url = 'url_o'
 max_nb_img = max_images
 
-def main():
-    download_images()
 
+def main():
+    if(test_connection()):
+        download_images()
+    
+    restart_slideshow()
+   
+   
+# Testing internet connection
+def test_connection():
+        try:
+            file = urllib.request.urlopen('https://www.google.com')
+            send_mail_to_let_someone_know_im_ok()
+            print('Network is A-ok.')
+            return True
+        except:
+            print('No connection.')
+            return False
+
+
+# Make script check in with me twice a day
+def send_mail_to_let_someone_know_im_ok():
+
+    try:
+        pst = pytz.timezone('Europe/Stockholm')
+        now = datetime.datetime.now(pst)
+        hour = now.hour
+        print('Time is: ', now, now.hour)
+    except Exception as e:
+        print(e)
+        
+    if(hour == 8 or hour == 18): 
+        print('Chiming in')
+        try:
+            mail_text = 'I still got the blues.'
+            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+            server.ehlo()
+            server.login(gmail_user, gmail_password)
+            server.sendmail(mail_from, mail_to, mail_text)
+        except Exception as e:
+            print('Something went down the drain: ', e)
+    else:
+        print('Now is not the time be sending emails')
+    
+    
+# To delete stray images locally    
 def delete_unwanted_images(stream_count):
     
     # Get number of images on disk to delete images not in flickr stream
@@ -46,6 +98,8 @@ def delete_unwanted_images(stream_count):
             except Exception as e:
                 print(e)
 
+
+# Connecting to Flickr and downloading 
 def download_images():
     count = 0
 
@@ -85,13 +139,15 @@ def download_images():
     
     # Calling the delete function to get rid of old leftover pix
     delete_unwanted_images(count)
-
+    
+    
+# Simply starting the FBI slideshow when all is done
+def restart_slideshow():  
     # Find and kill running FBI slideshow processes
     print("Restarting slideshow in 5 seconds...")
-
-
-    #Restart slideshow script to add newly downloaded images to FBI slideshow.
+   #Restart slideshow script to add newly downloaded images to FBI slideshow.
     subprocess.call("/home/pi/slideshow/slideshow.sh", shell=True)
+
 
 # Run 
 main()
