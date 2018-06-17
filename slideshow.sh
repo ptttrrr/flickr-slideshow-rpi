@@ -3,4 +3,4 @@ sleep 10
 echo Killing all FBI instances... 
 sudo killall fbi
 echo Starting new instance of FBI slideshow
-sudo fbi --noverbose -a -u -t 2 -T 1 /home/pi/slideshow/flickr/*
+sudo fbi --noverbose -a -u -t 12 -T 1 /home/pi/slideshow/flickr/*
