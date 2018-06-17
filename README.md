@@ -38,8 +38,7 @@ crontab -e
 
 ## Misc
  
-This is in it's simplest form and far from perfect. The script will only overwrite existing files and if images in the Flickr stream gets deleted, it could mean that local files will be picked up by FBI.
-Also, the flickr download script will break at the moment if there is no internet connection.
+You might need to install several modules via Pip for this to work (like Pytz for example).
 
 
 
