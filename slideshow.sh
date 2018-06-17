@@ -1,3 +1,6 @@
+echo Sleeping 10 seconds to avoid script not running at reboot...
 sleep 10
+echo Killing all FBI instances... 
 sudo killall fbi
-sudo fbi --noverbose -a -u -t 12 -T 1 /home/pi/slideshow/flickr/*
+echo Starting new instance of FBI slideshow
+sudo fbi --noverbose -a -u -t 2 -T 1 /home/pi/slideshow/flickr/*

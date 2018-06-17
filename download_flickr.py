@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from flickrapi import FlickrAPI
 import urllib.request
-import os, shutil
+import os, shutil, re
 import signal
 import config
 from random import randint
@@ -22,16 +22,29 @@ size_url = 'url_o'
 max_nb_img = max_images
 
 def main():
-    delete_images()
     download_images()
 
-def delete_images():
-    print('Deleting images in folder')
-    folder_path = '/home/pi/slideshow/flickr'
-    try:
-        shutil.rmtree(folder_path)
-    except Exception as e:
-        print(e)
+def delete_unwanted_images(stream_count):
+    
+    # Get number of images on disk to delete images not in flickr stream
+    print('Counting existing images in folder')
+    path, dirs, files = next(os.walk('slideshow/flickr'))
+    image_count = len(files)
+    print('Number of images on disk: ', image_count)
+    
+    if (stream_count <= image_count):
+        print('Deleting extra images in folder')
+        folder_path = '/home/pi/slideshow/flickr'
+        while (stream_count <= image_count):
+            try:
+                for image in os.listdir(folder_path):
+                    pattern = str(stream_count) + ".jpg"
+                    os.remove(os.path.join(folder_path, pattern))
+                    print('Deleted image; ', pattern)
+                    stream_count += 1
+                print('Done deleting leftover images!')
+            except Exception as e:
+                print(e)
 
 def download_images():
     count = 0
@@ -69,6 +82,9 @@ def download_images():
             
                             
     print("Total images downloaded:", str(count - 1))
+    
+    # Calling the delete function to get rid of old leftover pix
+    delete_unwanted_images(count)
 
     # Find and kill running FBI slideshow processes
     print("Restarting slideshow in 5 seconds...")
