@@ -9,6 +9,9 @@ config.py
 # Flickr images
 flickr/
 
+# Linux state stuff
+*.swp
+
 # C extensions
 *.so
 
