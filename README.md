@@ -31,7 +31,7 @@ crontab -e
  - Add a cronjob to start slideshow at reboot
 
 ```
-@reboot/home/pi/slideshow/slideshow.sh
+@reboot sudo /home/pi/slideshow/slideshow.sh &
 ```
  - Customize your paths to work with your own setup if it's different.
 
