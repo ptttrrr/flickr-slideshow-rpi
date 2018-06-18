@@ -142,7 +142,6 @@ def download_images():
     
 # Simply starting the FBI slideshow when all is done
 def restart_slideshow():  
-    # Find and kill running FBI slideshow processes
     print("Restarting slideshow in 5 seconds...")
    #Restart slideshow script to add newly downloaded images to FBI slideshow.
     subprocess.call("/home/pi/slideshow/slideshow.sh", shell=True)
