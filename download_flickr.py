@@ -116,7 +116,6 @@ def download_images():
         urls = []
         # Iterating through photo data, using url data to download
         for photo in photos:
-            t = randint(1, 3)
             time.sleep(t)
             count += 1
             if max_nb_img != -1:
