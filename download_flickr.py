@@ -130,7 +130,7 @@ def download_images():
                 urllib.request.urlretrieve(url,  results_folder + str(count) +".jpg")
                 print('Downloading image #' + str(count) + ' from url ' + url)
             except Exception as e:
-                print(e, 'Download failure')
+                print('Download failed. ', e)
     except:
         print('Could not get images. No internet connection again?')
             
