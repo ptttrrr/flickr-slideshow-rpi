@@ -25,7 +25,7 @@ gmail_password = config.SLIDE_CONFIG['gmail_password']
 mail_to = config.SLIDE_CONFIG['mail_to']
 mail_from = config.SLIDE_CONFIG['mail_from']
 
-# FlickrAPI instance
+# FlickrAPI settings
 flickr = FlickrAPI(flickr_key, flickr_secret)
 size_url = 'url_o'
 max_nb_img = max_images
